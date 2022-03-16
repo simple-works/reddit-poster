@@ -21,7 +21,7 @@ function main() {
 // ● Catch-Uncaught-Exceptions
 //------------------------------------------------------------------------------
 process.on("uncaughtException", (err) => {
-  log.fatal("Uncaught exception.", err);
+  log.error("Uncaught exception.", err);
   process.exit(1);
 });
 

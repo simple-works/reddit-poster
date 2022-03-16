@@ -1,21 +1,22 @@
 //==============================================================================
-// ■ Date (date.js)
+// ■ Task (Task.js)
 //------------------------------------------------------------------------------
-//     Date formatting utility.
+//     Class representing a reddit posting task.
 //==============================================================================
-const dayjs = require("dayjs");
 
 //------------------------------------------------------------------------------
-// ● Extensions
+// ● Task
 //------------------------------------------------------------------------------
-dayjs.extend(require("dayjs/plugin/duration"));
-dayjs.extend(require("dayjs/plugin/relativeTime"));
-dayjs.extend(require("dayjs/plugin/minMax"));
-//------------------------------------------------------------------------------
-const durationPrototype = Object.getPrototypeOf(dayjs.duration());
-durationPrototype.toString = durationPrototype.toISOString;
+class Task {
+  sub = "";
+
+  constructor(task = {}) {
+    const { sub } = task;
+    this.sub = sub;
+  }
+}
 
 //------------------------------------------------------------------------------
 // ► Exports
 //------------------------------------------------------------------------------
-module.exports = dayjs;
+module.exports = Task

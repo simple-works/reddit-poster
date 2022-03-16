@@ -1,21 +1,30 @@
 //==============================================================================
-// ■ Date (date.js)
+// ■ Tasklist (Tasklist.js)
 //------------------------------------------------------------------------------
-//     Date formatting utility.
+//     Class representing a list of reddit posting tasks.
 //==============================================================================
-const dayjs = require("dayjs");
+const check = require("check-types");
+const Task = require("./Task");
 
 //------------------------------------------------------------------------------
-// ● Extensions
+// ● Tasklist
 //------------------------------------------------------------------------------
-dayjs.extend(require("dayjs/plugin/duration"));
-dayjs.extend(require("dayjs/plugin/relativeTime"));
-dayjs.extend(require("dayjs/plugin/minMax"));
-//------------------------------------------------------------------------------
-const durationPrototype = Object.getPrototypeOf(dayjs.duration());
-durationPrototype.toString = durationPrototype.toISOString;
+class Tasklist {
+  _tasks = [];
+
+  constructor(tasks = []) {
+    check.assert.array.of.object(tasks);
+    for (const task of tasks) {
+      this._tasks.push(new Task(task));
+    }
+  }
+
+  *[Symbol.iterator]() {
+    for (const task of this._tasks) yield task;
+  }
+}
 
 //------------------------------------------------------------------------------
 // ► Exports
 //------------------------------------------------------------------------------
-module.exports = dayjs;
+module.exports = Tasklist;

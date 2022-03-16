@@ -41,6 +41,17 @@ function random(min, max) {
 }
 
 //------------------------------------------------------------------------------
+// ● Enumerate
+//------------------------------------------------------------------------------
+function enumerate(classConstructor, fieldKeys = []) {
+  for (const key of fieldKeys) {
+    Object.defineProperty(classConstructor.prototype, key, {
+      enumerable: true,
+    });
+  }
+}
+
+//------------------------------------------------------------------------------
 // ► Exports
 //------------------------------------------------------------------------------
-module.exports = { sleep, repeat, random };
+module.exports = { sleep, repeat, random, enumerate };
