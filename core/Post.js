@@ -4,6 +4,7 @@
 //     Class representing a reddit post.
 //══════════════════════════════════════════════════════════════════════════════
 const check = require("check-types");
+const { enumerate } = require("../utils/");
 
 //──────────────────────────────────────────────────────────────────────────────
 // ● Post-Class
@@ -32,7 +33,8 @@ class Post {
   }
 
   set title(value) {
-    this._title = value;
+    check.assert.maybe.string(value);
+    this._title = value || "";
   }
 
   //╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌
@@ -44,7 +46,8 @@ class Post {
   }
 
   set content(value) {
-    this._content = value;
+    check.assert.maybe.string(value);
+    this._content = value || "";
   }
 
   //╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌
@@ -56,7 +59,8 @@ class Post {
   }
 
   set oc(value) {
-    this._oc = value;
+    check.assert.maybe.boolean(value);
+    this._oc = value || false;
   }
 
   //╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌
@@ -68,9 +72,27 @@ class Post {
   }
 
   set flairs(value) {
-    this._flairs = value;
+    check.assert.maybe.array.of.string(value);
+    this._flairs = value || [];
+  }
+
+  //╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌
+  // ♦ To-String
+  //╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌
+
+  toString() {
+    const titleString = JSON.stringify(this.title);
+    const contentString = JSON.stringify(this.content);
+    const ocString = this.oc ? "OC" : "!OC";
+    const flairsString = JSON.stringify(this.flairs);
+    return `${this.constructor.name}: ${titleString}, ${contentString}, ${ocString}, ${flairsString}`;
   }
 }
+
+//──────────────────────────────────────────────────────────────────────────────
+// ● Enumerate-Class-Accessors
+//──────────────────────────────────────────────────────────────────────────────
+enumerate(Post, ["title", "content", "oc", "flairs"]);
 
 //──────────────────────────────────────────────────────────────────────────────
 // ► Exports

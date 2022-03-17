@@ -4,27 +4,23 @@
 //     This file is for testing purposes only.
 //══════════════════════════════════════════════════════════════════════════════
 const utils = require("./utils/"); // eslint-disable-line
-// const log = utils.logger("Test");
+const log = utils.logger("Test"); // eslint-disable-line
 // const Schedule = require("./core/Schedule");
-const Tasklist = require("./core/Tasklist");
+const Post = require("./core/Post");
 
 //──────────────────────────────────────────────────────────────────────────────
 // ● Test
 //──────────────────────────────────────────────────────────────────────────────
 async function test() {
-  // const s = new Schedule({ ref:"2022-03-16", gap: "P1D" });
-  // console.log(s.toString());
-
-  const tl = new Tasklist([
-    { sub: "Ambratolm" },
-    { sub: "TheRiseOfMyPower" },
-    { sub: "Art" },
-    { sub: "ImaginaryFeels" },
-    { sub: "Illustration" },
-  ]);
-  for (const t of tl) {
-    console.log(t);
-  }
+  const post = new Post({
+    title: "Rise!",
+    content: "https://some-url.com",
+    oc: true,
+    flairs: ["Artwork"],
+  });
+  console.log(post.toString());
+  console.log(post);
+  utils.logObj(post);
 }
 
 //──────────────────────────────────────────────────────────────────────────────

@@ -4,6 +4,7 @@
 //     Runtime environment utilities.
 //══════════════════════════════════════════════════════════════════════════════
 const dotenv = require("dotenv");
+const chalk = require("chalk");
 
 //──────────────────────────────────────────────────────────────────────────────
 // ● Environment-Variables
@@ -22,12 +23,18 @@ const isDev =
 // ● Environment-Log
 //──────────────────────────────────────────────────────────────────────────────
 function log() {
+  const { yellow, red, cyan } = chalk;
+  const devString = yellow("✸ Development");
+  const prodString = red("✔ Production");
+  const modeString =  isDev ? devString : prodString;
+  const varsKeys = Object.keys(vars);
   console.log("■ Environment:");
-  console.log(`├──● Mode:`);
-  console.log(`│\t${isDev ? "✸ Development" : "✔ Production"}`);
+  console.log(`├──◉ Mode: ${modeString}`);
   console.log("└──● Variables:");
-  for (const key in vars) {
-    console.log(`\t➔ ${key}: ${vars[key]}`);
+  for (let i = 0; i < varsKeys.length; i++) {
+    const prefix = i === varsKeys.length - 1 ? "└──◉" : "├──◉";
+    const value = cyan(vars[varsKeys[i]]);
+    console.log(`   ${prefix} ${varsKeys[i]}: ${value}`);
   }
 }
 

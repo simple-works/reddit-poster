@@ -5,10 +5,10 @@
 //══════════════════════════════════════════════════════════════════════════════
 const date = require("./date");
 const env = require("./env");
-const log = require("./logger");
+const logger = require("./logger");
 const misc = require("./misc");
 
 //──────────────────────────────────────────────────────────────────────────────
 // ► Exports
 //──────────────────────────────────────────────────────────────────────────────
-module.exports = { date, env, log, ...misc };
+module.exports = { date, env, logger, ...misc };
