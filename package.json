@@ -33,5 +33,20 @@
   },
   "engines": {
     "node": ">=13.14.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ambratolm/reddit-poster.git"
+  },
+  "keywords": [
+    "reddit",
+    "api",
+    "bot",
+    "schedule",
+    "post"
+  ],
+  "bugs": {
+    "url": "https://github.com/Ambratolm/reddit-poster/issues"
+  },
+  "homepage": "https://github.com/Ambratolm/reddit-poster#readme"
 }

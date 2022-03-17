@@ -1,117 +1,78 @@
 //══════════════════════════════════════════════════════════════════════════════
-// ■ Schedule (Schedule.js)
+// ■ Post (Post.js)
 //┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈
-//     Class representing a schedule of an intended event.
+//     Class representing a reddit post.
 //══════════════════════════════════════════════════════════════════════════════
 const check = require("check-types");
-const { date } = require("../utils/");
-const { enumerate } = require("../utils/");
 
 //──────────────────────────────────────────────────────────────────────────────
-// ● Schedule-Class
+// ● Post-Class
 //──────────────────────────────────────────────────────────────────────────────
-class Schedule {
-  _gapDuration = date.duration();
-  _refDate = date();
+class Post {
+  _title = "";
+  _content = "";
+  _oc = false;
+  _flairs = [];
 
-  constructor(schedule = {}) {
-    check.assert.object(schedule);
-    const { gapDuration, refDate } = schedule;
-    const { gap, ref } = schedule;
-    this.gapDuration = gapDuration || gap;
-    this.refDate = refDate || ref;
+  constructor(post = {}) {
+    check.assert.object(post);
+    const { title, content, oc, flairs } = post;
+    this.title = title;
+    this.content = content;
+    this.oc = oc;
+    this.flairs = flairs;
   }
 
   //╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌
-  // ♦ Gap-Duration
+  // ♦ Title
   //╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌
 
-  get gapDuration() {
-    return this._gapDuration;
+  get title() {
+    return this._title;
   }
 
-  set gapDuration(value) {
-    const gapDuration = date.duration(value);
-    const gapMilliseconds = gapDuration.asMilliseconds(); // May return NaN
-    this._gapDuration =
-      gapMilliseconds && !isNaN(gapMilliseconds) ? gapDuration : null;
-  }
-
-  get gapString() {
-    return this.gapDuration
-      ? `to redo every ${this.gapDuration
-          .humanize()
-          .replace("a ", "")
-          .replace("an ", "")}`
-      : "to never redo";
+  set title(value) {
+    this._title = value;
   }
 
   //╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌
-  // ♦ Reference-Date
+  // ♦ Content
   //╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌
 
-  get refDate() {
-    return this._refDate;
+  get content() {
+    return this._content;
   }
 
-  set refDate(value) {
-    const refDate = value ? date(value) : null;
-    this._refDate = refDate && refDate.isValid() ? refDate : null;
-  }
-
-  get refString() {
-    return this.refDate ? `done ${this.refDate.fromNow()}` : "never done";
+  set content(value) {
+    this._content = value;
   }
 
   //╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌
-  // ♦ Target-Date
+  // ♦ OC
   //╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌
 
-  get targetDate() {
-    return this.refDate && this.gapDuration
-      ? this.refDate.add(this.gapDuration)
-      : date();
+  get oc() {
+    return this._oc;
   }
 
-  get targetString() {
-    const expectedTimeText = this.targetDate.isSame(date())
-      ? "now"
-      : this.targetDate.fromNow();
-    return this.isReady
-      ? `ready to do ${expectedTimeText}`
-      : `to do later ${expectedTimeText}`;
+  set oc(value) {
+    this._oc = value;
   }
 
   //╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌
-  // ♦ Is-Ready
+  // ♦ Flairs
   //╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌
 
-  get isReady() {
-    return !this.targetDate.isAfter(date()); // Is by now or before
+  get flairs() {
+    return this._flairs;
   }
 
-  //╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌
-  // ♦ To-String
-  //╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌
-
-  toString() {
-    return `${this.constructor.name}: ${this.targetString}, ${this.refString}, ${this.gapString}`;
+  set flairs(value) {
+    this._flairs = value;
   }
 }
 
 //──────────────────────────────────────────────────────────────────────────────
-// ● Enumerate-Class-Accessors
-//──────────────────────────────────────────────────────────────────────────────
-enumerate(Schedule, [
-  "gapDuration",
-  "gapString",
-  "refDate",
-  "refString",
-  "targetDate",
-  "targetString",
-]);
-
-//──────────────────────────────────────────────────────────────────────────────
 // ► Exports
 //──────────────────────────────────────────────────────────────────────────────
-module.exports = Schedule;
+module.exports = Post;
