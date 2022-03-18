@@ -3,7 +3,6 @@
 //┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈
 //     Miscellaneous utilities.
 //══════════════════════════════════════════════════════════════════════════════
-const chalk = require("chalk");
 const { promisify } = require("util");
 
 //──────────────────────────────────────────────────────────────────────────────
@@ -53,21 +52,6 @@ function enumerate(classConstructor, fieldKeys = []) {
 }
 
 //──────────────────────────────────────────────────────────────────────────────
-// ● Log-Object
-//──────────────────────────────────────────────────────────────────────────────
-function logObj(obj) {
-  const { cyan, bgGrey } = chalk;
-  const className = obj.constructor.name;
-  console.log(`● ${className}:`)
-  for (let key in obj) {
-    const value = cyan(JSON.stringify(obj[key]));
-    let fieldString = `${key}: ${value}`;
-    if (key.startsWith("_")) fieldString = bgGrey(` ${fieldString} `);
-    console.log(`  ◉ ${fieldString}`);
-  }
-}
-
-//──────────────────────────────────────────────────────────────────────────────
 // ► Exports
 //──────────────────────────────────────────────────────────────────────────────
-module.exports = { sleep, repeat, random, enumerate, logObj };
+module.exports = { sleep, repeat, random, enumerate };

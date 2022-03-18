@@ -76,13 +76,13 @@ To deploy the project in a node environment:
 
 ### 🏭 Environment
 
--  Runtime: [**NodeJS**](https://github.com/nodejs)
--  Package Manager: [**NPM**](https://github.com/npm)
--  Editor: [**Sublime Text**](https://www.sublimetext.com)
+- Runtime: [**NodeJS**](https://github.com/nodejs)
+- Package Manager: [**NPM**](https://github.com/npm)
+- Editor: [**Sublime Text**](https://www.sublimetext.com)
 
 ### 🌑 Backend
 
--  ⚛️ Core: [**NodeJS**](https://github.com/nodejs/node)
+- ⚛️ Core: [**NodeJS**](https://github.com/nodejs/node)
 
 ## 📃 License
 

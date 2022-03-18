@@ -16,8 +16,8 @@ class Post {
   _flairs = [];
 
   constructor(post = {}) {
-    check.assert.object(post);
-    const { title, content, oc, flairs } = post;
+    check.assert.maybe.object(post);
+    const { title, content, oc, flairs } = post || {};
     this.title = title;
     this.content = content;
     this.oc = oc;

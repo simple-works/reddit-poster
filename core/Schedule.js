@@ -15,9 +15,8 @@ class Schedule {
   _refDate = date();
 
   constructor(schedule = {}) {
-    check.assert.object(schedule);
-    const { gapDuration, refDate } = schedule;
-    const { gap, ref } = schedule;
+    check.assert.maybe.object(schedule);
+    const { gapDuration, gap, refDate, ref } = schedule || {};
     this.gapDuration = gapDuration || gap;
     this.refDate = refDate || ref;
   }
